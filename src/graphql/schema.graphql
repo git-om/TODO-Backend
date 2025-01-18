@@ -12,6 +12,7 @@ type Mutation {
   createTodo(task: String!): String
   deleteTodo(id: Int!): String
   deleteUsersTodos: String
+  updateTodoTask(id: Int!, task: String!): Todo
 }
 
 type User {

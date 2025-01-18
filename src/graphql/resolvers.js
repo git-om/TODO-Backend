@@ -93,6 +93,18 @@ const resolvers = {
     return "deleted"
     },
     
+    updateTodoTask: async (_, { id, task }) => {
+      const todo = await prisma.todo.findUnique({ where: { id: id } });
+
+      if (!todo) {
+        throw new Error("Todo not found");
+      }
+
+      return prisma.todo.update({
+        where: { id: id },
+        data: { task },
+      });
+    },
     
   },
   User: {
