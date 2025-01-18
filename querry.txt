@@ -1,0 +1,38 @@
+-----------------------------
+query {
+  getUsers {
+    id
+    name
+    email
+    password
+    todos {
+      id
+      task
+      isDone
+    }
+  }
+}
+
+
+------------------
+mutation {
+  signUpUser(name: "Dev2 Gajjar", email: "dev3@example.com", password: "1abcd"){
+    name
+  }
+}
+
+
+---------------------
+mutation($email: String!, $password: String!){
+  signInUser(email: $email, password: $password) {
+    name
+    email
+  }
+}
+
+{
+  "email": "dev3@example.com",
+  "password": "1abcd"
+}
+
+--------------------

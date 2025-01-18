@@ -1,0 +1,34 @@
+type Query {
+  getUsers: [User!]!
+  getUser: User!
+}
+
+type Mutation {
+  createUser(name: String!, email: String!, password: String!): User!
+  addTodo(userId: Int!, task: String!): Todo!
+  markTodo(todoId: Int!): Todo!
+  signUpUser(name: String!, email: String!, password: String!): Token
+  signInUser(email: String!, password: String!): Token
+  createTodo(task: String!): String
+  deleteTodo(id: Int!): String
+  deleteUsersTodos: String
+}
+
+type User {
+  id: Int!
+  name: String!
+  email: String!
+  password: String!
+  todos: [Todo!]!
+}
+
+type Todo {
+  id: Int!
+  task: String!
+  isDone: Boolean!
+  user: User!
+}
+
+type Token{
+  token: String
+}
