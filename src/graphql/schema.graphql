@@ -1,6 +1,8 @@
+
 type Query {
   getUsers: [User!]!
   getUser: User!
+  getTodoById(id: Int!): Todo!
 }
 
 type Mutation {

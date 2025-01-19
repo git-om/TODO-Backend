@@ -15,6 +15,22 @@ const resolvers = {
       }
       return prisma.user.findUnique({ where: { id: userId }, include: { todos: true } })
     },
+
+    getTodoById: async (_, { id }, { userId }) => {
+      if (!userId) {
+        throw new Error("Unauthorized access. Please log in.");
+      }
+      const todo = await prisma.todo.findFirst({
+        where: {
+          id: id,
+          userId: userId, // Ensure the correct relationship between user and todo
+        },
+      });
+      if (!todo) {
+        throw new Error(`Todo with ID ${id} not found`);
+      }
+      return todo;
+    },
       
   },
   Mutation: {

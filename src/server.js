@@ -18,19 +18,27 @@ const schema = makeExecutableSchema({ typeDefs, resolvers });
 const server = new ApolloServer({
   schema,
   context: ({ req }) => {
-    const authorization = req.headers.authorization; // Correctly access the authorization header
+    // Extract the Authorization header
+    const authorization = req.headers.authorization;
 
     if (authorization) {
       try {
-        const { userId } = jwt.verify(authorization, secret);
-        return { userId };
+        // Verify the token and extract the payload
+        const token = authorization.replace("Bearer ", ""); // Remove "Bearer " prefix if present
+        const decodedToken = jwt.verify(token, secret);
+
+        // If valid, return the user ID in the context
+        return { userId: decodedToken.userId };
       } catch (error) {
         console.error("Invalid token:", error.message);
-        throw new Error("Authentication failed: Invalid token.");
+
+        // Throw an authentication error for invalid tokens
+        throw new Error("Authentication failed: Invalid or expired token.");
       }
     }
 
-    // Optionally return default context if no authorization is provided
+    // If no Authorization header, return empty context (or handle accordingly)
+    console.warn("No Authorization header provided.");
     return {};
   },
 });
